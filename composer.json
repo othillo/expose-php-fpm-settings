@@ -1,0 +1,15 @@
+{
+    "name": "othillo/expose-php-fpm-settings",
+    "description": "Exposes PHP-FPM settings like pm.max_children to Prometheus",
+    "type": "project",
+    "require-dev": {
+        "phpunit/phpunit": "^11.3"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Othillo\\ExposePhpFpmSettings\\": "src/"
+        }
+    },
+    "require": {}
+}

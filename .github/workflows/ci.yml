@@ -1,0 +1,92 @@
+name: "CI"
+
+on:
+  pull_request: # Note: By default, a workflow only runs when a pull_request's activity type is opened, synchronize, or reopened
+    branches:
+      - "main" # on pull requests to main branch
+  push:
+    branches:
+      - "main" # on merge to main branch assuming main branch is protected
+    tags:
+      - '*'
+  workflow_dispatch:
+  schedule:
+    - cron: "37 13 * * 1"
+
+jobs:
+  tests:
+    name: "Run tests"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # https://www.php.net/supported-versions.php
+        php-version:
+          - "8.2"
+          - "8.3"
+        os:
+          - "ubuntu-latest"
+    steps:
+      - uses: "actions/checkout@v4"
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          coverage: "none"
+        env:
+          fail-fast: true
+      - name: "Validate composer.json and composer.lock"
+        run: "composer validate --strict --no-interaction --ansi"
+      - name: "Install dependencies with Composer"
+        uses: "ramsey/composer-install@v3"
+      - name: "Run tests"
+        run: "make tests"
+
+  coding-standards:
+    name: "Coding standards"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        php:
+          - "8.3"
+        os:
+          - "ubuntu-latest"
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          coverage: "none"
+      - name: "Install PHP-CS-Fixer with Composer"
+        uses: "ramsey/composer-install@v3"
+        with:
+          working-directory: "tools/php-cs-fixer"
+      - name: "Check coding standards"
+        run: "make php-cs-fixer-ci"
+
+  static-analysis:
+    name: "Static analysis"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        php:
+          - "8.3"
+        os:
+          - "ubuntu-latest"
+    steps:
+      - name: "Checkout"
+        uses: "actions/checkout@v4"
+      - name: "Install PHP"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          coverage: "none"
+      - name: "Install dependencies with Composer"
+        uses: "ramsey/composer-install@v3"
+      - name: "Install PHPStan with Composer"
+        uses: "ramsey/composer-install@v3"
+        with:
+          working-directory: "tools/phpstan"
+      - name: "Run PHPStan"
+        run: "make phpstan"
