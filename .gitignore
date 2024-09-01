@@ -7,3 +7,4 @@ composer.phar
 
 .php-cs-fixer.cache
 .phpunit.cache
+bin/expose-php-fpm-settings.phar
