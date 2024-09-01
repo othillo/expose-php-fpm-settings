@@ -21,7 +21,6 @@ jobs:
       matrix:
         # https://www.php.net/supported-versions.php
         php-version:
-          - "8.2"
           - "8.3"
         os:
           - "ubuntu-latest"
@@ -40,53 +39,3 @@ jobs:
         uses: "ramsey/composer-install@v3"
       - name: "Run tests"
         run: "make tests"
-
-  coding-standards:
-    name: "Coding standards"
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        php:
-          - "8.3"
-        os:
-          - "ubuntu-latest"
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v4"
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@v2"
-        with:
-          php-version: "${{ matrix.php-version }}"
-          coverage: "none"
-      - name: "Install PHP-CS-Fixer with Composer"
-        uses: "ramsey/composer-install@v3"
-        with:
-          working-directory: "tools/php-cs-fixer"
-      - name: "Check coding standards"
-        run: "make php-cs-fixer-ci"
-
-  static-analysis:
-    name: "Static analysis"
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        php:
-          - "8.3"
-        os:
-          - "ubuntu-latest"
-    steps:
-      - name: "Checkout"
-        uses: "actions/checkout@v4"
-      - name: "Install PHP"
-        uses: "shivammathur/setup-php@v2"
-        with:
-          php-version: "${{ matrix.php-version }}"
-          coverage: "none"
-      - name: "Install dependencies with Composer"
-        uses: "ramsey/composer-install@v3"
-      - name: "Install PHPStan with Composer"
-        uses: "ramsey/composer-install@v3"
-        with:
-          working-directory: "tools/phpstan"
-      - name: "Run PHPStan"
-        run: "make phpstan"

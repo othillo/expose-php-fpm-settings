@@ -11,5 +11,12 @@
             "Othillo\\ExposePhpFpmSettings\\": "src/"
         }
     },
-    "require": {}
+    "autoload-dev": {
+        "psr-4": {
+            "Othillo\\ExposePhpFpmSettings\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^8.3"
+    }
 }
