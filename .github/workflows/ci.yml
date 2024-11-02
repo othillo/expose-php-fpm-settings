@@ -30,6 +30,7 @@ jobs:
         uses: "shivammathur/setup-php@v2"
         with:
           php-version: "${{ matrix.php-version }}"
+          ini-values: "phar.readonly=Off"
           coverage: "none"
         env:
           fail-fast: true
@@ -39,3 +40,5 @@ jobs:
         uses: "ramsey/composer-install@v3"
       - name: "Run tests"
         run: "make tests"
+      - name: "Build PHAR"
+        run: "make phar"
