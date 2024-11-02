@@ -1,3 +1,4 @@
+# be sure to set Actions > Workflow permissions to "Read and write permissions"
 name: "Build and release"
 
 on:
@@ -33,4 +34,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           make_latest: true
-          files: bin/expose-php-fpm-settings.phar
+          files: |
+            bin/expose-php-fpm-settings.phar
+            bin/expose-php-fpm-settings.sh
