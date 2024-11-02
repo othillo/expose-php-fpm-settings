@@ -30,10 +30,16 @@ jobs:
           fail-fast: true
       - name: "Build PHAR"
         run: "php build-phar.php"
+      - name: Calculate checksum
+        run: |
+          sha256sum bin/expose-php-fpm-settings.phar > bin/expose-php-fpm-settings.phar.sha256.txt
+          sha256sum bin/expose-php-fpm-settings.sh > bin/expose-php-fpm-settings.sh.sha256.txt
       - name: "Release"
         uses: softprops/action-gh-release@v2
         with:
           make_latest: true
           files: |
             bin/expose-php-fpm-settings.phar
+            bin/expose-php-fpm-settings.phar.sha256.txt
             bin/expose-php-fpm-settings.sh
+            bin/expose-php-fpm-settings.sh.sha256.txt
