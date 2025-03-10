@@ -3,7 +3,7 @@ updates:
 - package-ecosystem: composer
   directory: "/"
   ignore:
-    - dependency-name: "github-linguist"
+    - dependency-name: "*"
       update-types: ["version-update:semver-patch"]
   schedule:
     interval: weekly
