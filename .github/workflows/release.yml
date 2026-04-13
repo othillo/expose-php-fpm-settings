@@ -36,7 +36,7 @@ jobs:
           sha256sum expose-php-fpm-settings.phar > expose-php-fpm-settings.phar.sha256.txt
           sha256sum expose-php-fpm-settings.sh > expose-php-fpm-settings.sh.sha256.txt
       - name: "Release"
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           make_latest: true
           files: |
